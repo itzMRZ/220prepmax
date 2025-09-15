@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures & Algorithms - Quick Reference</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #f2cc60;
+            --accent-red: #ff7b72;
+            --accent-purple: #bc8cff;
+            --border-color: #30363d;
+            --code-bg: #161b22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(88, 166, 255, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .complexity {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .complexity.time { color: var(--accent-green); }
+        .complexity.space { color: var(--accent-yellow); }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: rgba(88, 166, 255, 0.15);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 0.9em;
+            color: var(--accent-blue);
+        }
+
+        .key-points {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-purple);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .applications {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-green);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .applications h4 {
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tree { background: linear-gradient(135deg, #2d5a27, #1e3e1a); }
+        .graph { background: linear-gradient(135deg, #4a2c5a, #2e1b3b); }
+        .heap { background: linear-gradient(135deg, #5a3d2d, #3b271e); }
+        .hash { background: linear-gradient(135deg, #2d4a5a, #1e3b3b); }
+        .trie { background: linear-gradient(135deg, #5a2d4a, #3b1e2e); }
+        .segment { background: linear-gradient(135deg, #5a4a2d, #3b2e1e); }
+        .union { background: linear-gradient(135deg, #2d5a5a, #1e3b3b); }
+        .advanced { background: linear-gradient(135deg, #4a5a2d, #2e3b1e); }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 50px 0 30px 0;
+            padding: 20px 0;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Data Structures & Algorithms</h1>
+            <p>Quick Reference Guide • Complexities • Best Practices • Interview Ready</p>
+        </div>
+
+        <div class="section-header">
+            <h2>Core Data Structures</h2>
+            <p>Essential structures every programmer should master</p>
+        </div>
+
+        <div class="grid">
+            <!-- Binary Tree -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon tree">🌳</div>
+                    <h2>Binary Tree</h2>
+                </div>
+                <div class="complexity time">Time: O(n) search | O(1) access</div>
+                <div class="complexity space">Space: O(h) where h is height</div>
+                
+                <ul>
+                    <li>Each node has <span class="highlight">≤ 2 children</span></li>
+                    <li><strong>In-order:</strong> Left → Root → Right</li>
+                    <li><strong>Pre-order:</strong> Root → Left → Right</li>
+                    <li><strong>Post-order:</strong> Left → Right → Root</li>
+                    <li><strong>Level-order:</strong> BFS traversal</li>
+                    <li>Perfect tree height: <span class="highlight">log₂(n)</span></li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Foundation for BST, Heap, Trie</li>
+                        <li>Recursive structure perfect for DFS</li>
+                        <li>Height determines performance</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Expression parsing</li>
+                        <li>Decision trees</li>
+                        <li>File system hierarchy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Binary Search Tree -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon tree">🔍</div>
+                    <h2>Binary Search Tree</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) avg | O(n) worst</div>
+                <div class="complexity space">Space: O(h) recursion stack</div>
+                
+                <ul>
+                    <li><span class="highlight">Left < Root < Right</span> property</li>
+                    <li>In-order traversal gives <strong>sorted sequence</strong></li>
+                    <li>Self-balancing variants: AVL, Red-Black</li>
+                    <li>Deletion cases: 0, 1, or 2 children</li>
+                    <li>Find successor/predecessor efficiently</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Validate: use min/max bounds</li>
+                        <li>Balance is crucial for performance</li>
+                        <li>Skewed tree = linked list performance</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Database indexing</li>
+                        <li>Priority queues</li>
+                        <li>Sorted collections</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Graph -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon graph">📊</div>
+                    <h2>Graph</h2>
+                </div>
+                <div class="complexity time">Time: O(V + E) traversal</div>
+                <div class="complexity space">Space: O(V) for adjacency</div>
+                
+                <ul>
+                    <li><strong>DFS:</strong> Stack/Recursion - cycle detection</li>
+                    <li><strong>BFS:</strong> Queue - shortest path</li>
+                    <li><strong>Directed vs Undirected</strong></li>
+                    <li><strong>Weighted vs Unweighted</strong></li>
+                    <li>Representation: Adjacency List/Matrix</li>
+                    <li>Topological sort for DAGs</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Choose representation wisely</li>
+                        <li>BFS for shortest path (unweighted)</li>
+                        <li>DFS for connected components</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Social networks</li>
+                        <li>Route planning</li>
+                        <li>Dependency resolution</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Heap -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon heap">⛰️</div>
+                    <h2>Heap (Priority Queue)</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) insert/delete | O(1) peek</div>
+                <div class="complexity space">Space: O(n) storage</div>
+                
+                <ul>
+                    <li><strong>Max-Heap:</strong> Parent ≥ children</li>
+                    <li><strong>Min-Heap:</strong> Parent ≤ children</li>
+                    <li>Complete binary tree (array implementation)</li>
+                    <li>Parent at <span class="highlight">i/2</span>, children at <span class="highlight">2i, 2i+1</span></li>
+                    <li>Heapify up/down for maintenance</li>
+                    <li>Build heap: O(n) time</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Not sorted, but maintains heap property</li>
+                        <li>Array implementation is space-efficient</li>
+                        <li>Perfect for finding extremes</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Dijkstra's algorithm</li>
+                        <li>Huffman encoding</li>
+                        <li>K largest/smallest elements</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Hash Table -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon hash">#️⃣</div>
+                    <h2>Hash Table</h2>
+                </div>
+                <div class="complexity time">Time: O(1) avg | O(n) worst</div>
+                <div class="complexity space">Space: O(n) storage</div>
+                
+                <ul>
+                    <li><strong>Hash Function:</strong> Maps keys to indices</li>
+                    <li><strong>Collision Resolution:</strong> Chaining vs Open Addressing</li>
+                    <li><strong>Load Factor:</strong> n/m (entries/buckets)</li>
+                    <li>Resize when load factor > threshold</li>
+                    <li>Good hash function: uniform distribution</li>
+                    <li>Perfect hashing for static data</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Trade memory for speed</li>
+                        <li>Hash function quality is crucial</li>
+                        <li>Dynamic resizing maintains performance</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Database indexing</li>
+                        <li>Caching systems</li>
+                        <li>Symbol tables</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Trie -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon trie">🌿</div>
+                    <h2>Trie (Prefix Tree)</h2>
+                </div>
+                <div class="complexity time">Time: O(m) where m is key length</div>
+                <div class="complexity space">Space: O(ALPHABET_SIZE × N × M)</div>
+                
+                <ul>
+                    <li><strong>Prefix-based</strong> tree structure</li>
+                    <li>Each path represents a string</li>
+                    <li>Common prefixes share paths</li>
+                    <li>Mark end-of-word nodes</li>
+                    <li>Supports autocomplete naturally</li>
+                    <li>Compressed trie saves space</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Space-time tradeoff for strings</li>
+                        <li>Excellent for prefix operations</li>
+                        <li>Can be memory intensive</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Autocomplete systems</li>
+                        <li>Spell checkers</li>
+                        <li>IP routing tables</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>Advanced Data Structures</h2>
+            <p>Specialized structures for complex problems</p>
+        </div>
+
+        <div class="grid">
+            <!-- Segment Tree -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon segment">🔢</div>
+                    <h2>Segment Tree</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) query/update</div>
+                <div class="complexity space">Space: O(4n) ≈ O(n)</div>
+                
+                <ul>
+                    <li><strong>Range queries</strong> in O(log n)</li>
+                    <li>Each node stores aggregate info</li>
+                    <li>Supports: sum, min, max, GCD</li>
+                    <li>Lazy propagation for range updates</li>
+                    <li>Build tree: O(n) time</li>
+                    <li>Perfect binary tree structure</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Divide and conquer approach</li>
+                        <li>Update parent when child changes</li>
+                        <li>Lazy propagation for efficiency</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Range sum queries</li>
+                        <li>Range minimum queries</li>
+                        <li>Competitive programming</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Union Find -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon union">🔗</div>
+                    <h2>Union-Find (Disjoint Set)</h2>
+                </div>
+                <div class="complexity time">Time: O(α(n)) amortized</div>
+                <div class="complexity space">Space: O(n) storage</div>
+                
+                <ul>
+                    <li><strong>Union:</strong> Connect two components</li>
+                    <li><strong>Find:</strong> Get component representative</li>
+                    <li><strong>Path Compression:</strong> Flatten tree</li>
+                    <li><strong>Union by Rank:</strong> Balance trees</li>
+                    <li>Near-constant time operations</li>
+                    <li>Tracks connected components</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Excellent for connectivity queries</li>
+                        <li>Optimizations make it very fast</li>
+                        <li>Essential for graph algorithms</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Kruskal's MST algorithm</li>
+                        <li>Dynamic connectivity</li>
+                        <li>Image processing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Fenwick Tree -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">🌲</div>
+                    <h2>Fenwick Tree (BIT)</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) query/update</div>
+                <div class="complexity space">Space: O(n) storage</div>
+                
+                <ul>
+                    <li><strong>Binary Indexed Tree</strong> for prefix sums</li>
+                    <li>Uses binary representation cleverly</li>
+                    <li>More space efficient than Segment Tree</li>
+                    <li>LSB (Least Significant Bit) operations</li>
+                    <li>Range updates with difference array</li>
+                    <li>1-based indexing typically used</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Simpler than Segment Tree</li>
+                        <li>Perfect for prefix sum queries</li>
+                        <li>Bit manipulation is key</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Frequency counting</li>
+                        <li>Inversion counting</li>
+                        <li>2D range sum queries</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Suffix Tree/Array -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">📝</div>
+                    <h2>Suffix Tree/Array</h2>
+                </div>
+                <div class="complexity time">Time: O(n) build | O(m) search</div>
+                <div class="complexity space">Space: O(n²) tree | O(n) array</div>
+                
+                <ul>
+                    <li><strong>Suffix Tree:</strong> All suffixes in trie</li>
+                    <li><strong>Suffix Array:</strong> Sorted suffix indices</li>
+                    <li>Pattern matching in O(m) time</li>
+                    <li>LCP (Longest Common Prefix) array</li>
+                    <li>Ukkonen's algorithm for construction</li>
+                    <li>Compressed representation saves space</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Powerful for string algorithms</li>
+                        <li>Array version is more practical</li>
+                        <li>Complex to implement correctly</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>String matching algorithms</li>
+                        <li>Bioinformatics</li>
+                        <li>Data compression</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Red-Black Tree -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon tree">🔴</div>
+                    <h2>Red-Black Tree</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) guaranteed</div>
+                <div class="complexity space">Space: O(n) + color bit</div>
+                
+                <ul>
+                    <li><strong>Self-balancing</strong> BST variant</li>
+                    <li>Nodes colored Red or Black</li>
+                    <li>Root and leaves (NIL) are black</li>
+                    <li>Red nodes have black children</li>
+                    <li>Same black height on all paths</li>
+                    <li>Rotations maintain balance</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Guarantees O(log n) operations</li>
+                        <li>Used in many standard libraries</li>
+                        <li>Less rigid than AVL trees</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>std::map in C++</li>
+                        <li>TreeMap in Java</li>
+                        <li>Process scheduling</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- B-Tree -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">🗃️</div>
+                    <h2>B-Tree</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) with high branching</div>
+                <div class="complexity space">Space: O(n) with better locality</div>
+                
+                <ul>
+                    <li><strong>Multi-way</strong> search tree</li>
+                    <li>Each node has many keys/children</li>
+                    <li>All leaves at same level</li>
+                    <li>Minimizes disk I/O operations</li>
+                    <li>Order m: max m-1 keys per node</li>
+                    <li>Self-balancing with splits/merges</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Optimized for external memory</li>
+                        <li>Reduces tree height significantly</li>
+                        <li>Complex insertion/deletion</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Database indexing</li>
+                        <li>File systems</li>
+                        <li>Large dataset storage</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>Algorithm Patterns</h2>
+            <p>Common algorithmic techniques and approaches</p>
+        </div>
+
+        <div class="grid">
+            <!-- Dynamic Programming -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">🧮</div>
+                    <h2>Dynamic Programming</h2>
+                </div>
+                <div class="complexity time">Time: O(states × transitions)</div>
+                <div class="complexity space">Space: O(states) with optimization</div>
+                
+                <ul>
+                    <li><strong>Overlapping subproblems</strong></li>
+                    <li><strong>Optimal substructure</strong></li>
+                    <li>Top-down (Memoization)</li>
+                    <li>Bottom-up (Tabulation)</li>
+                    <li>State space optimization</li>
+                    <li>Common patterns: LIS, LCS, Knapsack</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Identify state and transitions</li>
+                        <li>Avoid redundant calculations</li>
+                        <li>Space can often be optimized</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Optimization problems</li>
+                        <li>Counting problems</li>
+                        <li>Decision problems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Two Pointers -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">👉</div>
+                    <h2>Two Pointers</h2>
+                </div>
+                <div class="complexity time">Time: O(n) linear scan</div>
+                <div class="complexity space">Space: O(1) constant</div>
+                
+                <ul>
+                    <li><strong>Left and Right pointers</strong></li>
+                    <li>Move based on conditions</li>
+                    <li>Works on sorted arrays</li>
+                    <li>Fast-slow pointer for cycles</li>
+                    <li>Sliding window variant</li>
+                    <li>Avoids nested loops</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Reduces time complexity</li>
+                        <li>Natural for sorted data</li>
+                        <li>Various movement strategies</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Two sum problems</li>
+                        <li>Palindrome checking</li>
+                        <li>Cycle detection</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sliding Window -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">🪟</div>
+                    <h2>Sliding Window</h2>
+                </div>
+                <div class="complexity time">Time: O(n) single pass</div>
+                <div class="complexity space">Space: O(1) or O(k)</div>
+                
+                <ul>
+                    <li><strong>Fixed or Variable</strong> window size</li>
+                    <li>Maintain window invariant</li>
+                    <li>Expand/contract as needed</li>
+                    <li>Track window state efficiently</li>
+                    <li>Common in substring problems</li>
+                    <li>Use hash map for character tracking</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Avoid redundant work</li>
+                        <li>Update incrementally</li>
+                        <li>Know when to expand/contract</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Maximum subarray sum</li>
+                        <li>Longest substring problems</li>
+                        <li>Anagram searches</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Binary Search -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon advanced">🎯</div>
+                    <h2>Binary Search</h2>
+                </div>
+                <div class="complexity time">Time: O(log n) divide and conquer</div>
+                <div class="complexity space">Space: O(1) iterative | O(log n) recursive</div>
+                
+                <ul>
+                    <li><strong>Divide search space</strong> in half</li>
+                    <li>Works on sorted/monotonic data</li>
+                    <li>Find target, first/last occurrence</li>
+                    <li>Search on answer space</li>
+                    <li>Handle edge cases carefully</li>
+                    <li>Template: left ≤ right vs left < right</li>
+                </ul>
+
+                <div class="key-points">
+                    <h4>Key Points</h4>
+                    <ul>
+                        <li>Think about invariants</li>
+                        <li>Avoid infinite loops</li>
+                        <li>Not just for finding elements</li>
+                    </ul>
+                </div>
+
+                <div class="applications">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li>Search in sorted arrays</li>
+                        <li>Square root calculation</li>
+                        <li>Peak finding</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
