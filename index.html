@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Data Structures Hub (Dark Mode)</title>
+    <style>
+        /* CSS Variables for Dark Mode Theme */
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --link-color: #80bfff;
+            --border-color: #333333;
+            --code-bg-color: #2d2d2d;
+            --highlight-bg-color: rgba(128, 191, 255, 0.15);
+            --highlight-border-color: rgba(128, 191, 255, 0.5);
+        }
+
+        /* General Styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 10px; /* Padding for mobile */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            color: var(--heading-color);
+            line-height: 1.3;
+        }
+
+        h1 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            margin-top: 45px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            color: var(--link-color);
+        }
+        
+        h3 {
+            margin-top: 30px;
+            color: #d1d1d1;
+        }
+        
+        p {
+            font-size: 1.05em;
+        }
+
+        /* Highlighting Important Info */
+        .highlight {
+            background-color: var(--highlight-bg-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--highlight-border-color);
+            font-family: "SFMono-Regular", Consolas, monospace;
+        }
+
+        /* Code Blocks & ASCII Art */
+        pre {
+            background-color: var(--code-bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95em;
+            border: 1px solid var(--border-color);
+        }
+        
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+
+        /* Links and Lists */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Problem Section Styling */
+        .problem {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            background: rgba(0,0,0,0.2);
+            border-left: 4px solid var(--link-color);
+        }
+        
+        .problem-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+        
+        /* Blockquote for explanations */
+        blockquote {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: var(--code-bg-color);
+            border-left: 4px solid #b392f0;
+            color: #c7c7c7;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            body {
+                padding: 0;
+            }
+            .container {
+                padding: 15px;
+                border-radius: 0;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Advanced Data Structures Hub</h1>
+            <p style="text-align: center; color: #aaa;">Your go-to guide for core data structures, optimized for clarity and recall.</p>
+        </header>
+
+        <main>
+            <!-- ======================= Binary Tree Section ======================= -->
+            <section id="binary-tree">
+                <h2>1. Binary Tree</h2>
+                <p>A hierarchical data structure where each node has at most two children. The core idea is representing relationships, not necessarily sorted data.</p>
+                
+                <h3>Visualizing Tree Traversals</h3>
+                <p>Traversal is the process of visiting every node. The order is critical.</p>
+<pre><code>      F
+     / \
+    B   G
+   / \   \
+  A   D   I
+     / \
+    C   E</code></pre>
+                <ul>
+                    <li><strong>In-order (Left, Root, Right):</strong> <span class="highlight">A, B, C, D, E, F, G, I</span><br><em>Most famous for producing sorted output from a BST.</em></li>
+                    <li><strong>Pre-order (Root, Left, Right):</strong> <span class="highlight">F, B, A, D, C, E, G, I</span><br><em>Useful for creating a copy of a tree.</em></li>
+                    <li><strong>Post-order (Left, Right, Root):</strong> <span class="highlight">A, C, E, D, B, I, G, F</span><br><em>Used for deleting nodes safely from a tree.</em></li>
+                </ul>
+
+                <div class="problem">
+                    <p class="problem-title">Sample Problem: Maximum Depth</p>
+                    <p><strong>Problem:</strong> Find the length of the longest path from the root node to a leaf node.</p>
+                    <h4>Code Approach (Recursive)</h4>
+                    <p>The solution elegantly uses recursion. The depth of a tree is <span class="highlight">1 + max(depth of left, depth of right)</span>.</p>
+<pre><code>int maxDepth(TreeNode root) {
+    // Base case: an empty node has 0 depth.
+    if (root == null) {
+        return 0;
+    }
+    // Recursively call for left and right children.
+    int leftDepth = maxDepth(root.left);
+    int rightDepth = maxDepth(root.right);
+    
+    // Return 1 (for the current level) + the deeper of the two subtrees.
+    return 1 + Math.max(leftDepth, rightDepth);
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- ======================= Binary Search Tree Section ======================= -->
+            <section id="binary-search-tree">
+                <h2>2. Binary Search Tree (BST)</h2>
+                <p>A sorted binary tree where for every node, all left descendants are smaller and all right descendants are larger. This structure makes searching extremely efficient.</p>
+                <p>The single most important property is: <span class="highlight">left < parent < right</span>.</p>
+                
+                <h3>The Importance of Balance</h3>
+                <p>A balanced BST ensures operations remain efficient at <span class="highlight">O(log n)</span>. An unbalanced (skewed) tree degrades to a linked list, making operations <span class="highlight">O(n)</span>.</p>
+
+                <h3>Visualizing Operations</h3>
+                <h4>Deletion: The Hardest Operation</h4>
+                <p>When deleting a node with two children:</p>
+                <ol>
+                    <li>Find its <strong>in-order successor</strong> (the smallest node in the right subtree).</li>
+                    <li>Copy the successor's value to the node you want to delete.</li>
+                    <li>Recursively delete the successor (which is now an easier case).</li>
+                </ol>
+                
+                <div class="problem">
+                    <p class="problem-title">Sample Problem: Validate a BST</p>
+                    <p><strong>Problem:</strong> Check if a given tree adheres to the BST property everywhere.</p>
+                    <h4>Code Approach (Min/Max Range)</h4>
+                    <p>The key is to pass down a valid `(min, max)` range for each node to check against. A simple `left < parent < right` check is not sufficient.</p>
+<pre><code>boolean isValidBST(TreeNode root) {
+    // Start with an unbounded range (null represents infinity).
+    return validate(root, null, null);
+}
+
+boolean validate(TreeNode node, Integer min, Integer max) {
+    if (node == null) return true; // An empty tree is valid.
+
+    // If the node's value violates the range, it's invalid.
+    if ((min != null && node.val <= min) || (max != null && node.val >= max)) {
+        return false;
+    }
+
+    // Check left subtree with updated max boundary, and right with updated min.
+    return validate(node.left, min, node.val) && validate(node.right, node.val, max);
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- ======================= Graph Section ======================= -->
+            <section id="graph">
+                <h2>3. Graph</h2>
+                <p>A structure for modeling complex networks and relationships, consisting of vertices (nodes) and edges (connections).</p>
+
+                <h3>Traversal: BFS vs. DFS</h3>
+                <ul>
+                    <li><strong>BFS (Breadth-First Search):</strong> Uses a <span class="highlight">Queue</span>. Explores layer by layer. Finds the <strong>shortest path</strong> in an unweighted graph.</li>
+                    <li><strong>DFS (Depth-First Search):</strong> Uses a <span class="highlight">Stack</span> or recursion. Explores as deeply as possible before backtracking. Used for <strong>cycle detection</strong> and <strong>topological sorting</strong>.</li>
+                </ul>
+                
+                <div class="problem">
+                    <p class="problem-title">Sample Problem: Number of Islands</p>
+                    <p><strong>Problem:</strong> In a grid of land ('1') and water ('0'), count the distinct bodies of land.</p>
+                    <h4>Code Approach (DFS "Sinking")</h4>
+                    <p>Iterate through the grid. When you find land, increment a counter and start a traversal (DFS is common) to find all connected land parts, marking them as visited ('0') to "sink" the island and prevent recounting.</p>
+<pre><code>int numIslands(char[][] grid) {
+    int count = 0;
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] == '1') {
+                count++;
+                dfs_sink(grid, i, j); // Find and sink all parts of this island.
+            }
+        }
+    }
+    return count;
+}
+
+void dfs_sink(char[][] grid, int r, int c) {
+    // Boundary checks
+    if (r<0 || c<0 || r>=grid.length || c>=grid[0].length || grid[r][c]=='0') return;
+    
+    grid[r][c] = '0'; // Mark as visited (sink it).
+    
+    // Explore in all 4 directions.
+    dfs_sink(grid, r + 1, c);
+    dfs_sink(grid, r - 1, c);
+    dfs_sink(grid, r, c + 1);
+    dfs_sink(grid, r, c - 1);
+}</code></pre>
+                </div>
+            </section>
+            
+            <!-- ======================= Heap Section ======================= -->
+            <section id="heap">
+                <h2>4. Heap</h2>
+                <p>A specialized tree (but usually implemented as an array) that is always "complete" and satisfies the heap property. Its primary application is the <strong>Priority Queue</strong>.</p>
+                <ul>
+                    <li><strong>Max-Heap:</strong> Parent is always >= children. `getMax()` is <span class="highlight">O(1)</span>.</li>
+                    <li><strong>Min-Heap:</strong> Parent is always <= children. `getMin()` is <span class="highlight">O(1)</span>.</li>
+                </ul>
+                <p>Insertion and deletion are efficient at <span class="highlight">O(log n)</span>.</p>
+
+                <div class="problem">
+                    <p class="problem-title">Sample Problem: Kth Largest Element</p>
+                    <p><strong>Problem:</strong> Find the Kth largest element in an unsorted array efficiently.</p>
+                    <h4>Code Approach (Min-Heap of size K)</h4>
+                    <p>This is a clever and highly efficient approach. By maintaining a Min-Heap of size K, the smallest item in the heap is always our answer.</p>
+<pre><code>int findKthLargest(int[] nums, int k) {
+    // A Min-Heap will keep the smallest elements at the top.
+    PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue<>();
+
+    for (int num : nums) {
+        minHeap.add(num);
+        // If the heap grows larger than k, remove the smallest element.
+        if (minHeap.size() > k) {
+            minHeap.poll();
+        }
+    }
+    // The root of the heap is the Kth largest element.
+    return minHeap.peek();
+}</code></pre>
+                    <blockquote>
+                        <strong>Why does this work?</strong> The heap effectively stores the "top K" elements seen so far. When a new number is added, the heap ejects the smallest of the group if it exceeds size K. This ensures that after checking all numbers, the smallest value remaining in the heap is precisely the Kth largest element overall.
+                    </blockquote>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
